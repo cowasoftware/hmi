@@ -1,0 +1,101 @@
+
+syntax = "proto2";
+package COWA.NavMsg;
+message Point3D {
+    optional double x = 1 [default = nan];
+    optional double y = 2 [default = nan];
+    optional double z = 3 [default = nan];
+}
+  
+// A unit quaternion that represents a spatial rotation. See the link below for
+// details.
+//   https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation
+// The scalar part qw can be omitted. In this case, qw should be calculated by
+//   qw = sqrt(1 - qx * qx - qy * qy - qz * qz).
+message Quaternion {
+    optional double qx = 1 [default = nan];
+    optional double qy = 2 [default = nan];
+    optional double qz = 3 [default = nan];
+    optional double qw = 4 [default = nan];
+}
+
+message Velocity {
+    optional Point3D linear = 1;
+    optional Point3D angular = 2;
+}
+
+message Covariance{
+    optional double x = 1 [default = nan];
+    optional double y = 2 [default = nan];
+    optional double z = 3 [default = nan];
+
+    optional double p = 4 [default = nan];
+    optional double r = 5 [default = nan];
+    optional double h = 6 [default = nan];
+
+    optional double xt = 7 [default = nan];
+    optional double yt = 8 [default = nan];
+    optional double zt = 9 [default = nan];
+
+    optional double pr = 10 [default = nan];
+    optional double rr = 11 [default = nan];
+    optional double hr = 12 [default = nan];
+
+    repeated double matrix = 13; // 3*3 for position, or 6*6 for position and rotation
+}
+
+message Pose {
+    optional Point3D position = 1;
+    optional Quaternion rotation = 2;
+    optional Covariance covariance = 3;
+}
+
+message PoseStamped {
+    enum Status {
+        // FOR INIT
+        ERROR_TF_NCONFIG          = 1;
+        ERROR_TSTAMP_FAILED       = 2;
+        ERROR_RTK_FAILED          = 3;
+        ERROR_RTK_YAW_FAILED      = 4;
+        ERROR_RTK_YAW_MISMATCH    = 5;
+        ERROR_RTK_MISMATCH        = 6;
+        ERROR_RTK_TSTAMP          = 7;
+        ERROR_RTK_TF_ERROR        = 8;
+        ERROR_IMU_TF_ERROR        = 9;
+
+        // RAW SENSOR
+        WARN_RTK_TSTAMP           = 101;
+        WARN_RTK_NA               = 102;
+        WARN_RTK_YAW_NA           = 103;
+        WARN_CHASSIS_TIMESTAMP    = 104;
+        WARN_CHASSIS_TSTAMP_SPEED = 105;
+        WARN_CHASSIS_SPEED        = 106;
+        WARN_CHASSIS_WHEEL_SPEED  = 107;
+
+        // CORRECTION COMPONENT
+        WARN_LIDAR_TSTAMP         = 201;
+        WARN_LIDAR_POS_MISMATCH   = 202;
+        WARN_LIDAR_ALT_MISMATCH   = 203;
+        WARN_LIDAR_YAW_MISMATCH   = 204;
+        WARN_LANE_TSTAMP          = 205;
+        WARN_LANE_POS_MISMATCH    = 206;
+        WARN_LANE_ALT_MISMATCH    = 207;
+        WARN_LANE_YAW_MISMATCH    = 208;
+        WARN_CURB_TSTAMP          = 209;
+        WARN_CURB_POS_MISMATCH    = 210;
+        WARN_CURB_ALT_MISMATCH    = 211;
+        WARN_CURB_YAW_MISMATCH    = 212;
+    };
+    optional uint64 timestamp  = 1;
+    optional bytes frame_id   = 2;
+    optional uint32 sequence   = 3;
+    optional Pose pose         = 4;
+    optional Velocity velocity = 5;
+    repeated Status status     = 6;
+    optional int32 latency_ms = 7;    //产生该消息相对于真实时刻的延迟
+    repeated Status internstatus = 8;
+}
+
+message PoseStampedArray {
+    repeated PoseStamped poses = 1;
+}

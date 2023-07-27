@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package COWA.Network;
+
+message Moderm {
+    int32 slot = 1;
+    string CSQ = 2;  // 信号质量
+    string COPS = 3; // 运营商
+    string CGREG = 4; // 连接状态
+}

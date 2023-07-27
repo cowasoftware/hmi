@@ -1,0 +1,26 @@
+syntax = "proto2";
+
+package utm_point_cloud;
+
+message PointXYZ
+{
+    required double x = 1;
+    required double y = 2;
+    required double z = 3;
+}
+
+message PointCloud
+{
+    repeated PointXYZ point = 1;
+}
+
+message PointCloudCollect
+{
+    repeated PointCloud  point_cloud = 1;
+}
+
+
+message PointCloudDataType{
+    required uint64 sequence_id = 1 ;
+    optional PointCloudCollect point_cloud_collect = 2;
+}

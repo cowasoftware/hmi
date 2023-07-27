@@ -1,0 +1,172 @@
+syntax = "proto3";
+    
+package cowa.sau;
+
+
+enum CmdId
+{
+    CMD_ID_INVALID                    = 0x00;
+    CMD_ID_NOTIFY_IDENTITY            = 0x01;   //客户端向服务端通知模块定义
+    CMD_ID_NOTIFY_INSTALLED_VERSIONS  = 0x02;   //客户端向服务端通知安装的版本
+    CMD_ID_REQ_IDENTITY               = 0x03;   //服务端向客户端请求模块定义
+    CMD_ID_REQ_VERSION                = 0x04;   //服务端向客户端请求安装版本
+    CMD_ID_PUB_PACKAGE_ACK            = 0x05;   //服务端向客户端推送文件回应 Command->data为当前的package
+    CMD_ID_INSTALL_CONTROL            = 0x06;   //控制安装动作(预留)
+    CMD_ID_INSTALL_STATUS             = 0x07;   //安装状态请求/通知
+    //版本回退
+    CMD_ID_FALLBACK_CONTROL           = 0x10;   //回退版本,data: package info
+    CMD_ID_FALLBACK_STATUS            = 0x11;   //请求版本回退状态
+    //自升级
+    CMD_ID_PROCESS_EXIT               = 0x20;   //子模块退出重启，在自升级全部成功，或者回退後失败
+    //HMI
+    CMD_ID_NOTIFY_DOWNLOAD_VERSIONS   = 0x30;   //主升级程序向hmi通知有新版本，是否需要升级
+    CMD_ID_REQ_DOWNLOAD_VERSIONS      = 0x31;   //hmi请求升级下载信息
+    CMD_ID_CONFIRM_INSTALL            = 0x32;   //hmi确认需要升级；data:InstallNotify
+    
+}
+
+
+
+
+//安装状态
+enum InstallState
+{
+    INSTALL_STATE_UNKNOW = 0;
+    INSTALL_STATE_NORMAL = 1;
+    INSTALL_STATE_PROCESSING = 2;
+    INSTALL_STATE_FINISH = 3;
+    INSTALL_STATE_ERROR = 4;
+}
+
+
+message InstallResult
+{
+    InstallState   code    = 1;
+    string         package = 2;    //安装的软件名称
+    string         reason  = 3;
+}
+
+//安装包信息
+message PackageInfo
+{
+    string  name = 1;       //package name
+    string  version = 2;    //package version
+    string  device = 3;     //所在设备
+}
+
+enum InstallControlCmd
+{
+    INSTALL_START = 0x00;
+    INSTALL_STOP  = 0x01;
+}
+
+message InstallControl
+{
+    InstallControlCmd   control = 1; //控制操作
+    string              package = 2; //安装包名称
+    string              version = 3; //版本
+}
+
+//安装版本信息上传
+message InstallVersion
+{
+    string   device = 1;
+    repeated PackageInfo packages = 2;
+}
+
+
+
+//请求命令
+message Command
+{
+    CmdId     id      = 1;      // 命令类型
+    string    device  = 2;      // 设备名称
+    string    module  = 3;      // 模块名称
+    string    data    = 4;      // 数据内容
+}
+
+
+//文件数据块
+message Block
+{
+    uint32 counter = 1;
+    uint32 index = 2;
+    bytes  data = 3;
+}
+
+//文件信息
+message FileInfo
+{
+    string name = 1;                //文件名称，必须唯一
+    string version = 2;             //文件版本
+    string md5 = 3;                 //文件md5
+    uint32 size = 4;                //文件大小
+    bool   mainifest = 5;           //是否是mainifest文件,如果是manifest文件，name属性是
+    string package = 6;             //当nanifest为true时， 
+}
+
+//推送文件
+message PushFile
+{
+    string     target  = 1;    //目标设备
+    FileInfo   file    = 2;    //文件信息
+    Block      block   = 3;    //文件分块
+}
+
+message SubFileAck
+{
+    string  name    = 1;    //package name
+    bool    success = 2;    //是否成功
+}
+
+/*
+ *  Fallback 
+ */
+
+
+enum FallbackState
+{
+    FALLBACK_STATE_UNKNOWN = 0; //未知状态
+    FALLBACK_STATE_PROCESSING = 1;
+    FALLBACK_STATE_OK = 2;      
+    FALLBACK_STATE_ERROR = 3;
+}
+
+message FallbackResult
+{
+    PackageInfo   pkginfo = 1;
+    FallbackState state  = 2;
+    string        reason = 3;
+}
+
+
+//升级包新旧版本
+message PackageUpdate
+{
+   string name = 1;             //package
+   string new_version = 2;
+   string old_version = 3;
+}
+
+//发送给HMI的升级包消息
+// message InstallPackages
+// {
+//     string version = 1;             //总的升级版本
+//     InstallState state = 2;             //总的升级状态
+//     repeated PackageUpdate pkgs = 3;    //升级小包信息
+// }
+
+//发送给HMI的升级包消息
+message InstallPackages
+{
+    string version_cur = 1;             //总的升级版本
+    string version_new = 2;             //总的升级版本
+    InstallState state = 3;             //总的升级状态
+    repeated PackageUpdate pkgs = 4;    //升级小包信息
+}
+
+//hmi端确认是否升级
+message InstallNotify
+{
+    bool update = 1;//允许升级
+}

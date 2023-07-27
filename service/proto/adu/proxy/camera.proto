@@ -1,0 +1,10 @@
+syntax = "proto2";
+
+package camera;
+
+
+
+message CameraImageDataType
+{
+    required bytes imgae_data = 1;
+}

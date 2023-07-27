@@ -1,0 +1,44 @@
+{
+    "routes": [
+        {
+            "id": "go",
+            "name": "go",
+            "stations": [
+                {
+                    "x": 324840.0,
+                    "y": 3462520.0,
+                    "radius": 2,
+                    "name": "go-0",
+                    "order": 0
+                },
+                {
+                    "x": 324839.0,
+                    "y": 3462520.0,
+                    "radius": 2,
+                    "name": "go-1",
+                    "order": 1
+                }
+            ]
+        },
+        {
+            "id": "back",
+            "name": "back",
+            "stations": [
+                {
+                    "x": 324839.0,
+                    "y": 3462520.0,
+                    "radius": 2,
+                    "name": "back-0",
+                    "order": 0
+                },
+                {
+                    "x": 324840.0,
+                    "y": 3462520.0,
+                    "radius": 2,
+                    "name": "back-1",
+                    "order": 1
+                }
+            ]
+        }
+    ]
+}

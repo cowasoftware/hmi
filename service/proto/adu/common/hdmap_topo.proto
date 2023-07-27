@@ -1,0 +1,41 @@
+syntax = "proto2";
+import "hdmap_common.proto";
+package COWA.MapData;
+
+enum TopoType {
+    CITY_DRIVING = 2;
+    BIKING = 3;
+    SIDEWALK = 4;
+    PARKING = 5;
+    SHOULDER = 6;
+    RAMP = 7;
+    CROSSWALK = 8;
+    SQUARE = 9;
+}
+
+message TopoId {
+  optional string id = 1;
+  optional TopoType type = 2;
+}
+message Node {
+  optional TopoId id = 1;
+  optional double cost = 2;
+}
+message Edge {
+  enum DirectionType {
+    FORWARD = 0;
+    LEFT = 1;
+    RIGHT = 2;
+    BIDIRECTION = 3;
+  }
+  optional TopoId from = 1;
+  optional TopoId to = 2;  // 
+  optional double cost = 3;
+  optional DirectionType type = 4;
+}
+
+message Graph {
+  optional Header hdmap = 1;
+  repeated Node node = 3;
+  repeated Edge edge = 4;
+}

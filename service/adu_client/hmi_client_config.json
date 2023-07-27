@@ -1,0 +1,34 @@
+{
+    "publish_base_info":
+    {
+        "protocol_type"  : "tcp",
+        "ip"          : "127.0.0.1",
+        "port"        : "9014",
+        "hwm"         : 1000
+    },
+
+    "publish_filter_point_cloud":
+    {
+        "protocol_type"  : "tcp",
+        "ip"          : "127.0.0.1",
+        "port"        : "9015",
+        "hwm"         : 1000
+    },
+
+    "publish_camera":
+    {
+        "protocol_type"  : "tcp",
+        "ip"          : "127.0.0.1",
+        "port"        : "9016",
+        "hwm"         : 1000
+    },
+
+    "server":
+    {
+        "protocol_type"  : "tcp",
+        "ip"          : "127.0.0.1",
+        "port"        : "9017"        
+    }
+}
+
+

@@ -1,0 +1,313 @@
+syntax = "proto2";
+package COWA.MapData;
+
+import "hdmap_common.proto";
+
+
+// 行驶车道，包括人行道等长行通道
+message LaneStrip {
+  enum Type {
+    WALL = 1;
+    FENCE = 2; // 栅栏， 人可以跨越的那种网状
+    GREEN = 3; // 绿化
+  }
+  optional float start_s = 1;
+  optional float end_s = 2;
+  optional float height = 3;
+};
+message LanePoint { // 地面点
+  enum Type {
+    UNKNOWN = 0;
+    DOTTED_YELLOW = 1;
+    DOTTED_WHITE = 2;
+    SOLID_YELLOW = 3;
+    SOLID_WHITE = 4;
+    DOUBLE_YELLOW = 5;
+    CURB = 6; // 路牙
+    BLANK = 7;  // 无边界，如路与旁边的泥土混在一起且无印刷线
+    VIRTUAL = 9; // 虚拟线，如虚拟出来的左转线
+  };
+  optional float x = 1;
+  optional float y = 2;
+  optional float z = 3;
+  optional Type type  = 4;
+  optional float height = 5; // 一般情况下指的是路牙或者花坛高度，不含上面的绿化、栅栏等高度
+
+  // optional float s = 3;    // sl坐标系 以当前车道Lane为起点0
+  // optional float l = 4;    // sl坐标系      距离中心线的距离，左边为正值 
+}
+message LaneCurve {
+  optional Id id = 2;
+  repeated LanePoint point = 1;
+  optional double offset_x = 3;
+  optional double offset_y = 4;
+
+  enum Type {
+    REALITY = 0;
+    VIRTUAL = 1;
+    CENTRAL = 2;
+  };
+  optional Type type  = 5;
+  repeated LaneStrip strip =6; 
+  // 安全岛、绿化带等: LanePoint.type = CURB, 可附加STRIP，如附加一般情况下是绿化GREEN
+  // 道路中的栅栏： LanePoint.type=SOLID_YELLOW/SOLID_WHITE, 可附加STRIP，如附加一般情况下是FENCE
+}
+message Lane {
+  optional Id id = 1;
+  enum LaneType {
+    NONE = 1; // 虚拟车道，表示插补出来的假车道
+    CITY_DRIVING = 2; //机动车道
+    BIKING = 3; // 非机动车道
+    PARKING = 7; // 普通公路路边停车车道
+    EMERGENCY_LINE = 8; // 应急车道
+    SIDEWALK = 4; // 人行道
+    WAITINGAREA = 5; // 待转区
+    HYBRID = 6; // 机非混合道路
+  };
+  optional LaneType type = 2;
+
+  // 约定俗成的，单个曲线按照s递增，多个曲线按照|l|递增
+  optional Id central_line = 3;
+  repeated Id left_line = 4; 
+  repeated Id right_line = 5;
+
+  optional float length = 6;       // in meters.
+  optional float speed_limit = 7;  // in meters per second.
+  optional float min_speed_limit = 16; // in meters per second.
+
+
+  // 拓扑连接，左右邻居包含了不同类型的车道，注意切入时需判断车道类型以及边界类型
+  repeated Id predecessor_id = 8;
+  repeated Id successor_id = 9;
+  repeated Id left_neighbor_forward_lane_id = 10;
+  repeated Id right_neighbor_forward_lane_id = 11;
+  repeated Id left_neighbor_reverse_lane_id = 12;
+  repeated Id right_neighbor_reverse_lane_id = 13;
+
+  
+  enum LaneDirection {
+    FORWARD = 1;
+    BACKWARD = 2;
+    BIDIRECTION = 3;
+  };
+  optional LaneDirection direction = 14; // 车道是否可以双向行驶，人行道也不可忽略该属性
+  enum LaneTurn {
+    NO_TURN = 1;
+    LEFT_TURN = 2;
+    RIGHT_TURN = 3;
+    U_TURN = 4;
+  };
+  optional LaneTurn turn = 15;  // 虚拟车道才包含车辆转向属性，如LEFT表示在该车道时车辆*正在**左转
+
+
+  message LaneMark {
+    enum Type {
+      TEXT = 0;
+      TURN_FORWORD = 1;
+      TURN_UTURN = 2;
+      TURN_LEFT = 3;
+      TURN_RIGHT = 4;
+      TURN_FORWORD_LEFT = 5;
+      TURN_FORWORD_RIGHT = 6;
+      TURN_FORWORD_UTURN = 7;
+      TURN_LEFT_UTURN = 8;
+      TURN_LEFT_RIGHT = 9;
+      TURN_UTURN_FORBIDEN = 10;
+      TURN_LEFT_FORBIDEN = 11;
+      TURN_RIGHT_FORBIDEN = 12;
+    };
+
+    optional Type type  = 1;
+    optional PointENU centroid = 2;
+    optional string text = 3;
+    optional Polygon polygon = 4;
+    optional float direction = 5; // 标示的方向，通常与车道行驶方向一致
+  }
+  repeated LaneMark mark = 17;   // 在本车道内的地面标示
+
+}
+
+message LaneTide { 
+  optional Id id = 1;
+
+  message Item {
+    message Time {
+      optional float start_time = 1; // 开始时间, in hours
+      optional float end_time = 2; // 开始时间, in hours
+    }
+    repeated Id lane_id = 1;
+    repeated Time time = 2; // in 24h, hours, 对于按工作日区分的情形，由地图服务器分配地图时更改，车辆在每日启动或者0:00拉取地图，并在0:00后首次启动自动驾驶功能前重新初始化地图
+  }
+  // item a 与 item b 互斥
+  optional Item a = 2;
+  optional Item b = 3;
+  repeated Id signal = 5; // 根据哪个Signal进行判断互斥选择，没有Signal时通常根据时间段判断
+}
+
+message Road {
+  enum RoadType {
+    NONE = 1;
+    CITY_DRIVING = 2; // 城市道路
+    VIADUCT = 3; // 高架桥
+    EXPRESSWAY = 4; // 高速公路
+    TUNNEL = 5; // 隧道
+  };
+  optional Id id = 1;
+  optional RoadType type = 2;
+  repeated Id lane_id_a = 3;
+  repeated Id lane_id_b = 4;
+  optional LaneCurve boundary = 5;
+}
+
+
+// 广场，主要指范围较大可随意转向运行的区域
+message Square {
+  optional Id id = 1;
+  optional Polygon polygon = 3;
+}
+
+// 斜坡，从人行道下来到车道等位置，车道坡度不在该范畴
+message Ramp { 
+  optional Id id = 1;
+  optional Polygon polygon = 2;   // 包络多边形
+  optional float oriention = 3;  // 行驶过程中最优ENU坐标系下的yaw，约定俗成的都是上坡方向
+}
+
+// 逻辑意义上的人行横道，包括了人行道上的建筑物入口
+message Crosswalk {
+  optional Id id = 1;
+  optional Polygon polygon = 2;
+  optional float oriention = 3; // 行人主方向，符号正负无意义，一般情况下与Polygon长边方向一致
+  optional bool hybrid = 4; // 是否是人机非混合场景，如园区园区入口非oriention方向也会有大量行人
+}
+
+// 减速带，停车线等地面标示
+message Roadmark {
+  enum RoadmarkType {
+    NONE = 1;
+    SPEEDBUMP = 2; //减速带
+    STOPLINE = 3; // 停车线，包括红绿灯停车线以及停车让行线，路口停车线再Signal中同样定义
+    YEILDLINE = 4; // 减速让行线
+    TEXT = 6; // 不在车道上的文字
+    CLEARAREA = 7; // 禁停区 
+  };
+  optional Id id = 1;
+  optional Polygon polygon = 2;
+  optional RoadmarkType type = 3;
+}
+
+message ParkingSpace {
+  optional Id id = 1;
+  optional Polygon polygon = 2; // 停车位区域
+  optional Polygon boundary = 3; // 可行驶最大区域
+  optional float oriention = 4; // 进入方向
+}
+
+// 特殊目标
+message Object {
+  enum Type {
+    TREE_TRUNK = 1;   // 圆形，树躯干
+    POLE = 2;         // 圆形，电线杆、路灯杆等
+    PILES = 3;        // 圆形，固定的路桩(或者逻辑上可以认为路桩的障碍物，如圆形石墩)
+    DUSTBIN = 5;      // 多边形，垃圾桶，果皮箱
+    BLOCK = 6;        // 多边形，小型的石墩，如园区外墙的方形柱子
+    BUILDING = 7;     // 建筑物，如水池、孤立绿化带等
+    CURB = 8;         // 路牙
+    LANE_SOLID = 9;   // 实线
+    LANE_DOTTED = 10; // 虚线
+    STOPLINE = 11;    // 停止线
+    CROSSWALK = 12;   // 横道线
+    ARROW = 13;       // 箭头
+    HIGH_REFLECTIVITY = 14; //高反
+  };
+
+  optional Id id = 1;
+  optional Type type = 2;
+  optional Polygon polygon = 3;   // 包络多边形
+  optional Cloud cloud = 4;    // 目标静态点云
+}
+
+
+// 红绿灯
+message Subsignal {
+  enum Type {
+    UNKNOWN = 1;
+    MIX_2_HORIZONTAL = 2;
+    MIX_2_VERTICAL = 3;
+    MIX_3_HORIZONTAL = 4;
+    MIX_3_VERTICAL = 5;
+    SINGLE = 6;
+    LED_SCREEN = 7;
+  };
+
+  optional Id id = 1;
+  optional Type type = 2;
+  optional Polygon boundary = 3;
+}
+message Signal {
+  enum Type {
+    UNKNOWN = 1;
+    FOWARD = 2;
+    LEFT = 3;
+    RIGHT = 4;
+    UTURN = 5;
+    TIDE = 6; // 只有变化的LED式潮汐指示牌才为TIDE，关联至LaneTide
+    // 一个指示牌表示为一个Signal(type=Tide)
+    // 行驶时根据Lane找到Road，根据Road找到这个方向上的所有Lane，从而找到所有的Tide(如果有多个)
+    // 一个Tide可能对应多个Lane，也可能是一个Lane，关联的Overlap与红绿灯一致
+    // 不同与红绿灯的Overlap是到子车道(反人类自觉)，Tide直接关联到潮汐车道(即按照物理的关联规则)
+  };
+  optional Id id = 1;
+  repeated Type type = 2;
+  repeated Subsignal subsignal = 3;
+
+  repeated PointENU stop_line = 5;
+  optional Id wait_lane = 6;
+  optional Id wait_signal = 7;
+}
+
+// 路口
+message Crossroad {
+  optional Id id = 1 ;
+  message Line {
+    repeated Id signals = 1; // 停止线对面的红绿灯
+    repeated Id lane_in = 2; // 进入该路口的车道，即需要等待红绿灯的车道
+    repeated Id lane_out = 3;
+    repeated Id road = 4;
+  }
+  repeated Line group = 2;
+  optional Polygon boundary = 3; // 最后一个点不包含第一个点
+  enum Type {
+    CROSS = 1; //十字路口
+    INTERSECTION = 2; // 小路汇入路口，如小区门口
+  };
+  optional Type type = 4;
+}
+
+message LaneChange {
+  optional Id id = 1;
+  repeated Id lane_in = 2;
+  repeated Id lane_out = 3;
+  optional Polygon boundary = 4;
+}
+message HdMap {
+  optional Header header = 1;
+
+  repeated Road road = 7;
+  repeated LaneCurve lane_curve = 11;
+  repeated Lane lane = 2;
+  repeated Crosswalk crosswalk = 3;
+  repeated Signal signal = 4;
+  repeated Crossroad crossroad = 5;
+  repeated Ramp ramp = 6;
+
+  repeated Roadmark roadmark = 8;
+  repeated ParkingSpace parking_space = 9;
+  repeated Overlap overlap = 10;
+  repeated Object objects = 12;
+  
+  repeated LaneChange lane_change = 13;
+  repeated LaneTide tide = 14;
+  // repeated Junction junction = 3;
+  // repeated PNCJunction pnc_junction = 13;
+}

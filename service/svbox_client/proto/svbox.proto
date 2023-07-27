@@ -1,0 +1,17 @@
+syntax = "proto2";
+
+package svbox;
+
+message ImageFrame
+{
+    optional bytes header = 1;
+    optional bytes jpeg = 2 [deprecated = true];
+
+    optional uint64 pts = 3 [deprecated = true];
+    optional uint64 dts = 4 [deprecated = true];
+    optional uint64 duration = 5 [deprecated = true];
+    optional bool key = 6 [deprecated = true];
+    optional bytes data = 7; // h264 data
+    optional bytes extra = 8 [deprecated = true];
+    optional string encode = 9 [default = "H264"];
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>异步加载高德地图</title>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+    <style>
+        html,
+        body,
+        #container {
+          width: 100%;
+          height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<div id="location_control"></div>
+<script type="text/javascript">
+    window._AMapSecurityConfig = { 
+        securityJsCode:'fe1daff2dd0ad6804e302eecc3d6fb49',
+    }
+</script>
+<!-- <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=c80852f7260dcfdca274bbd3c9b246a8"></script> -->
+<script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+<script src="../js/qwebchannel.js"></script>
+<script src="../js/gdMap.js"> </script>
+<script type="text/javascript">
+    var url = 'https://webapi.amap.com/maps?v=2.0&key=c80852f7260dcfdca274bbd3c9b246a8&callback=onApiLoaded';
+    var jsapi = document.createElement('script');
+    jsapi.charset = 'utf-8';
+    jsapi.src = url;
+    document.head.appendChild(jsapi);
+</script>
+
+</body>
+</html>

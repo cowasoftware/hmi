@@ -1,0 +1,87 @@
+syntax = "proto2";
+package COWA.NavMsg;
+import "pose.proto";
+message TrafficLightBBox
+{
+  optional int32 x1 = 1;
+  optional int32 y1 = 2;
+  optional int32 x2 = 3;
+  optional int32 y2 = 4;
+  optional int32 depth = 6;
+  optional bool is_wait =5 [default = false]; //区域是否是待行区标识灯, TrafficLight2不再使用该字段
+}
+
+message TrafficLight 
+{
+  enum Color 
+  {
+    UNKNOWN = 0;
+    RED = 1;
+    YELLOW = 2;
+    GREEN = 3;
+    BLACK = 4;
+    WAIT = 5;
+  };
+  optional Color color = 1;
+
+  // Traffic light string-ID in the map data.
+  optional bytes id = 2;
+
+  // How confidence about the detected results, between 0 and 1.
+  optional double confidence = 3 [default = 1.0];
+
+  // Duration of the traffic light since detected.
+  optional double tracking_time = 4;
+
+  // Is traffic blinking
+  optional bool blink = 5;
+
+  // v2x traffic light remaining time.
+  optional double remaining_time = 6;
+  optional PoseStamped center = 7; // in the frame of base_link
+}
+
+message TrafficLightDetection 
+{
+  optional uint64 timestamp = 1;
+  optional uint32 sequence = 2;
+  repeated TrafficLight traffic_light = 3;
+  optional bytes camera_id = 4;
+  repeated TrafficLightBBox roi_detected = 5;
+  optional PoseStamped vehicle_pose = 6;
+  repeated bytes signal_id = 7;
+  optional int32 latency_ms = 8;    //产生该消息相对于真实时刻的延迟
+}
+
+message TrafficLight2
+{
+  enum State 
+  {
+    GREEN = 1;
+    RED = 2;
+    YELLOW = 3;
+    UNKNOWN = 4;
+  };
+  enum Direction 
+  {
+    FORWARD = 1;
+    LEFT = 2;
+    RIGHT = 3;
+    UTURN = 4;
+  };
+  message Item 
+  {
+    optional Direction dir = 1;
+    optional State state = 2;
+    optional float remaining = 3; // 标记当前方向可行驶时的剩余时间，-1表示无效
+    optional bool blink = 4;
+  }
+  optional uint64 timestamp = 1;
+  optional uint32 sequence = 2;
+  repeated Item lights = 3;
+
+  // 结合高精度地图及车身位置输出如下值
+  optional string crossroad_id = 4;
+  optional float yaw = 5; 
+  repeated TrafficLightBBox detected = 6;
+}

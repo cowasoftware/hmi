@@ -1,0 +1,516 @@
+syntax = "proto3";
+    
+package COWA.CanMsg;
+
+message CanMsg_0x64
+{
+    bool isValid = 1;
+    uint32 PDM_leftbrush_down = 2;   // sigLen:1
+    uint32 PDM_leftbrush_up = 3;   // sigLen:1
+    uint32 PDM_leftbrush_extend = 4;   // sigLen:1
+    uint32 PDM_leftbrush_narrow = 5;   // sigLen:1
+    uint32 PDM_rightbrush_extend = 6;   // sigLen:1
+    uint32 PDM_rightbrush_narrow = 7;   // sigLen:1
+    uint32 PDM_rightbrush_down = 8;   // sigLen:1
+    uint32 PDM_rightbrush_up = 9;   // sigLen:1
+    uint32 PDM_tank_open = 10;   // sigLen:1
+    uint32 PDM_tank_close = 11;   // sigLen:1
+    uint32 PDM_nozzle_down = 12;   // sigLen:1
+    uint32 PDM_nozzle_up = 13;   // sigLen:1
+    uint32 PDM_extend_relay = 14;   // sigLen:1
+    uint32 PDM_withdraw_relay = 15;   // sigLen:1
+    uint32 PDM_sewage_loop = 16;   // sigLen:1
+    uint32 PDM_fan_calibration = 17;   // sigLen:1
+    uint32 PDM_fan_work_debug = 18;   // sigLen:1
+    uint32 PDM_fan_speed_acc = 19;   // sigLen:1
+    uint32 PDM_fan_speed_min = 20;   // sigLen:1
+    uint32 PDM_leftbrush_work_debug = 21;   // sigLen:1
+    uint32 PDM_rightbrushwork_debug = 22;   // sigLen:1
+    uint32 PDM_brush_speed_acc = 23;   // sigLen:1
+    uint32 PDM_brush_speed_min = 24;   // sigLen:1
+    uint32 PDM_spray_pump_debug = 25;   // sigLen:1
+    uint32 PDM_EPS_calibration = 26;   // sigLen:1
+    uint32 PDM_work_mode = 27;   // sigLen:2
+    uint32 PDM_HPpump_work = 28;   // sigLen:1
+    uint32 PDM_dust_mode = 29;   // sigLen:1
+    uint32 PDM_tank_tilt = 30;   // sigLen:1
+    uint32 PDM_tank_reset = 31;   // sigLen:1
+    uint32 PDM_worklight = 32;   // sigLen:1
+    uint32 PDM_work_start = 33;   // sigLen:1
+    uint32 Curise_start = 34;   // sigLen:1
+    uint32 Curise_acc = 35;   // sigLen:1
+    uint32 Curise_dec = 36;   // sigLen:1
+}
+
+message CanMsg_0x65
+{
+    bool isValid = 1;
+    uint32 Vehicle_Code = 2;   // sigLen:2
+}
+
+message CanMsg_0x6E
+{
+    bool isValid = 1;
+    uint32 vehice_speed = 2;   // sigLen:8
+    uint32 travel_distance = 3;   // sigLen:32
+    uint32 Curise_Off = 4;   // sigLen:1
+    uint32 Curise_speed = 5;   // sigLen:8
+}
+
+message CanMsg_0x6F
+{
+    bool isValid = 1;
+    uint32 LocationLight_sts = 2;   // sigLen:1
+    uint32 BigLight_sts = 3;   // sigLen:1
+    uint32 TurnLeftLight_sts = 4;   // sigLen:1
+    uint32 TurnRightLight_sts = 5;   // sigLen:1
+    uint32 WorkLight_sts = 6;   // sigLen:1
+    uint32 Park_sts = 7;   // sigLen:1
+    uint32 seat_sts = 8;   // sigLen:1
+    uint32 SystemWork_sts = 9;   // sigLen:1
+    uint32 vehicleready = 10;   // sigLen:1
+    uint32 BatteryFault_normal = 11;   // sigLen:1
+    uint32 BatteryHVTurnOFF = 12;   // sigLen:1
+    uint32 MotorOverheat_warning = 13;   // sigLen:1
+    uint32 VehicleFault = 14;   // sigLen:1
+    uint32 Charge_sts = 15;   // sigLen:1
+    uint32 BatteryFault_major = 16;   // sigLen:1
+    uint32 VehicleCharge_remind = 17;   // sigLen:1
+    uint32 software_version = 18;   // sigLen:8
+}
+
+message CanMsg_0x70
+{
+    bool isValid = 1;
+    uint32 TurnLeft_I = 2;   // sigLen:1
+    uint32 TurnRight_I = 3;   // sigLen:1
+    uint32 workFlag_I = 4;   // sigLen:1
+    uint32 TrunOnFlag_I = 5;   // sigLen:1
+    uint32 LowBeam_I = 6;   // sigLen:1
+    uint32 small_light_I = 7;   // sigLen:1
+    uint32 AutoDrive_I = 8;   // sigLen:1
+    uint32 EmergencyFlash_I = 9;   // sigLen:1
+    uint32 Stop_I = 10;   // sigLen:1
+}
+
+message CanMsg_0x71
+{
+    bool isValid = 1;
+    uint32 BrakeOil_line = 2;   // sigLen:1
+    uint32 Box_up = 3;   // sigLen:1
+    uint32 Box_dowm = 4;   // sigLen:1
+    uint32 Box_Arrive = 5;   // sigLen:1
+    uint32 ChengGan_Arrive = 6;   // sigLen:1
+    uint32 Eban_switch = 7;   // sigLen:1
+    uint32 BoxDoor_switch = 8;   // sigLen:1
+    uint32 LeftBrush_arrive = 9;   // sigLen:1
+    uint32 RightBrush_arrive = 10;   // sigLen:1
+    uint32 LeftBrush_open = 11;   // sigLen:1
+    uint32 LeftBrush_close = 12;   // sigLen:1
+    uint32 RightBrush_open = 13;   // sigLen:1
+    uint32 RightBrush_close = 14;   // sigLen:1
+    uint32 dustbin_returnSwitch = 15;   // sigLen:1
+    uint32 WaterLine_show = 16;   // sigLen:8
+}
+
+message CanMsg_0x78
+{
+    bool isValid = 1;
+    uint32 TurnLeftLight = 2;   // sigLen:1
+    uint32 TurnRightLight = 3;   // sigLen:1
+    uint32 LowBeam = 4;   // sigLen:1
+    uint32 WorkLight_relay = 5;   // sigLen:1
+    uint32 small_light = 6;   // sigLen:1
+    uint32 reversing_light = 7;   // sigLen:1
+    uint32 brake_light = 8;   // sigLen:1
+    uint32 Reversing_buzzer = 9;   // sigLen:1
+}
+
+message CanMsg_0x79
+{
+    bool isValid = 1;
+    uint32 BoxDoor_open = 2;   // sigLen:1
+    uint32 BoxDoor_close = 3;   // sigLen:1
+    uint32 LeftBrush_up = 4;   // sigLen:1
+    uint32 LeftBrush_down = 5;   // sigLen:1
+    uint32 LeftBrush_open = 6;   // sigLen:1
+    uint32 LeftBrush_close = 7;   // sigLen:1
+    uint32 RightBrush_up = 8;   // sigLen:1
+    uint32 RightBrush_down = 9;   // sigLen:1
+    uint32 RightBrush_open = 10;   // sigLen:1
+    uint32 RightBrush_close = 11;   // sigLen:1
+    uint32 Eban_switch_open = 12;   // sigLen:1
+    uint32 Eban_switch_close = 13;   // sigLen:1
+    uint32 XiZwitch_up = 14;   // sigLen:1
+    uint32 XiZwitch_down = 15;   // sigLen:1
+    uint32 dustbin_up = 16;   // sigLen:1
+    uint32 dustbin_down = 17;   // sigLen:1
+    uint32 LVWaterRoad_relay = 18;   // sigLen:1
+    uint32 sewagecyclevalve = 19;   // sigLen:1
+    uint32 delayCutDown = 20;   // sigLen:1
+}
+
+message CanMsg_0x7B
+{
+    bool isValid = 1;
+    uint32 work_time = 2;   // sigLen:32
+}
+
+message CanMsg_0x7C
+{
+    bool isValid = 1;
+    uint32 water_line_I = 2;   // sigLen:8
+    uint32 qinbengan_O = 3;   // sigLen:1
+    uint32 cepengan_O = 4;   // sigLen:1
+    uint32 zuojiapen_O = 5;   // sigLen:1
+    uint32 youjiapen_O = 6;   // sigLen:1
+    uint32 penqiang_O = 7;   // sigLen:1
+    uint32 yiliufa_O = 8;   // sigLen:1
+    uint32 pengan_Up_O = 9;   // sigLen:1
+    uint32 pengan_down_O = 10;   // sigLen:1
+    uint32 pengan_Left_O = 11;   // sigLen:1
+    uint32 pengan_Right_O = 12;   // sigLen:1
+    uint32 qifa_O = 13;   // sigLen:1
+    uint32 water_low_warning = 14;   // sigLen:1
+    uint32 water_pump_CANerror = 15;   // sigLen:1
+    uint32 ExtendModule_CANerror = 16;   // sigLen:1
+    uint32 ICU_CANerror = 17;   // sigLen:1
+}
+
+message CanMsg_0x7D
+{
+    bool isValid = 1;
+    uint32 washWork_time = 2;   // sigLen:32
+}
+
+message CanMsg_0x63
+{
+    bool isValid = 1;
+    uint32 out_enable = 2;   // sigLen:1
+    uint32 state = 3;   // sigLen:2
+    uint32 IN_voltage = 4;   // sigLen:8
+    uint32 out_voltage = 5;   // sigLen:8
+    uint32 IN_current = 6;   // sigLen:10
+    uint32 out_current = 7;   // sigLen:14
+    uint32 DCDC_temperature = 8;   // sigLen:8
+    uint32 over_temperature = 9;   // sigLen:1
+    uint32 in_over_current = 10;   // sigLen:1
+    uint32 out_over_current = 11;   // sigLen:1
+    uint32 in_over_voltage = 12;   // sigLen:1
+    uint32 in_less_voltage = 13;   // sigLen:1
+    uint32 out_over_voltage = 14;   // sigLen:1
+    uint32 out_less_voltage = 15;   // sigLen:1
+}
+
+message CanMsg_0x62
+{
+    bool isValid = 1;
+    uint32 BMS_CANerror = 2;   // sigLen:1
+    uint32 MCU_CANerror = 3;   // sigLen:1
+    uint32 EHB_CANerror = 4;   // sigLen:1
+    uint32 EPB_CANerror = 5;   // sigLen:1
+    uint32 EPS_CANerror = 6;   // sigLen:1
+    uint32 DC48V_CANerror = 7;   // sigLen:1
+    uint32 AC_CANerror = 8;   // sigLen:1
+    uint32 ADU_CANerror = 9;   // sigLen:1
+    uint32 ICU_CANerror = 10;   // sigLen:1
+    uint32 DC12V_CANerror = 11;   // sigLen:1
+    uint32 GPS_CANerror = 12;   // sigLen:1
+    uint32 FJI_CANerror = 13;   // sigLen:1
+    uint32 WP_CANerror = 14;   // sigLen:1
+    uint32 SPL_CANerror = 15;   // sigLen:1
+    uint32 SPR_CANerror = 16;   // sigLen:1
+}
+
+message CanMsg_0x61
+{
+    bool isValid = 1;
+    uint32 EHB_WorkSts = 2;   // sigLen:1
+    uint32 ParkReq = 3;   // sigLen:1
+    uint32 BrakeSts = 4;   // sigLen:2
+    uint32 faultLevel = 5;   // sigLen:4
+    uint32 BrakePress = 6;   // sigLen:8
+    uint32 pedal_percent = 7;   // sigLen:8
+    uint32 PistonDisplacement = 8;   // sigLen:16
+    uint32 targetPress = 9;   // sigLen:8
+}
+
+message CanMsg_0x5F
+{
+    bool isValid = 1;
+    uint32 faultCode1 = 2;   // sigLen:8
+    uint32 faultCode2 = 3;   // sigLen:8
+    uint32 faultCode3 = 4;   // sigLen:8
+}
+
+message CanMsg_0x60
+{
+    bool isValid = 1;
+    uint32 Parklight_sts = 2;   // sigLen:1
+    uint32 faultlight_sts = 3;   // sigLen:1
+    uint32 switch_sts = 4;   // sigLen:1
+    uint32 brake_sts = 5;   // sigLen:1
+    uint32 system_sts = 6;   // sigLen:1
+    uint32 fault_message = 7;   // sigLen:8
+}
+
+message CanMsg_0x5E
+{
+    bool isValid = 1;
+    uint32 compressor_speed = 2;   // sigLen:16
+    uint32 out_power = 3;   // sigLen:8
+    uint32 compressor_sts = 4;   // sigLen:8
+    uint32 faultCode_main = 5;   // sigLen:8
+    uint32 faultCode_son = 6;   // sigLen:8
+}
+
+message CanMsg_0x5D
+{
+    bool isValid = 1;
+    uint32 work_model = 2;   // sigLen:8
+    uint32 autoCMD_model = 3;   // sigLen:8
+    uint32 targetangle = 4;   // sigLen:16
+    uint32 currentangle = 5;   // sigLen:16
+    uint32 wheelpalstance = 6;   // sigLen:16
+}
+
+message CanMsg_0x5C
+{
+    bool isValid = 1;
+    uint32 out_torque = 2;   // sigLen:16
+    uint32 target_torque = 3;   // sigLen:16
+    uint32 faultCode_92 = 4;   // sigLen:8
+}
+
+message CanMsg_0x511
+{
+    bool isValid = 1;
+    uint32 SPR_main_voltage = 2;   // sigLen:8
+    uint32 SPR_currentmotcurrent = 3;   // sigLen:8
+    uint32 SPR_enable_sts = 4;   // sigLen:8
+    uint32 SPR_wheel_sts = 5;   // sigLen:8
+    uint32 SPR_mot_temperature = 6;   // sigLen:8
+    uint32 SPR_motcurrentspeed = 7;   // sigLen:16
+    uint32 SPR_overcurrent = 8;   // sigLen:1
+    uint32 SPR_overvoltage511 = 9;   // sigLen:1
+    uint32 SPR_overtemperature = 10;   // sigLen:1
+    uint32 SPR_lochedrotor = 11;   // sigLen:1
+    uint32 SPR_Hallsignalerror = 12;   // sigLen:1
+    uint32 SPR_motfualt_itself = 13;   // sigLen:1
+}
+
+message CanMsg_0x512
+{
+    bool isValid = 1;
+    uint32 SPL_main_voltage = 2;   // sigLen:8
+    uint32 SPL_currentmotcurrent = 3;   // sigLen:8
+    uint32 SPL_enable_sts = 4;   // sigLen:8
+    uint32 SPL_wheel_sts = 5;   // sigLen:8
+    uint32 SPL_mot_temperature = 6;   // sigLen:8
+    uint32 SPL_motcurrentspeed = 7;   // sigLen:16
+    uint32 SPL_overcurrent511 = 8;   // sigLen:1
+    uint32 SPL_overvoltage511 = 9;   // sigLen:1
+    uint32 SPL_overtemperature = 10;   // sigLen:1
+    uint32 SPL_lochedrotor = 11;   // sigLen:1
+    uint32 SPL_Hallsignalerror = 12;   // sigLen:1
+    uint32 SPL_motfualt_itself = 13;   // sigLen:1
+}
+
+message CanMsg_0x08FF32F0
+{
+    bool isValid = 1;
+    uint32 MotSpeed = 2;   // sigLen:16
+    uint32 MotTorque = 3;   // sigLen:8
+    uint32 RotaryWarning = 4;   // sigLen:1
+    uint32 OverCurrentFault = 5;   // sigLen:1
+    uint32 PowerLimtWarning = 6;   // sigLen:1
+    uint32 MCUTempWarning = 7;   // sigLen:1
+    uint32 MotTempWarning = 8;   // sigLen:1
+    uint32 IntePass = 9;   // sigLen:1
+    uint32 BusbarOverVoltFault = 10;   // sigLen:1
+    uint32 BusbarLessVoltFault = 11;   // sigLen:1
+    uint32 GearSts = 12;   // sigLen:2
+    uint32 BackBrake = 13;   // sigLen:1
+    uint32 AccPdlSts = 14;   // sigLen:2
+    uint32 SpeedControlValid = 15;   // sigLen:1
+    uint32 GeneralFaultWarning = 16;   // sigLen:2
+    uint32 Busbardischarg = 17;   // sigLen:1
+    uint32 BrakeActive = 18;   // sigLen:1
+    uint32 MotSpeedValid = 19;   // sigLen:1
+    uint32 GearWarning = 20;   // sigLen:1
+    uint32 HoldReq = 21;   // sigLen:1
+    uint32 ApdlPercent = 22;   // sigLen:8
+}
+
+message CanMsg_0x0CFF15EF
+{
+    bool isValid = 1;
+    uint32 MOTspeed = 2;   // sigLen:16
+    uint32 MOTBusbarVolt = 3;   // sigLen:8
+    uint32 MotTemp = 4;   // sigLen:8
+    uint32 IGBTTemp = 5;   // sigLen:8
+    uint32 MOT_current_AC = 6;   // sigLen:8
+    uint32 MOTFaultCodeSign = 7;   // sigLen:8
+}
+
+message CanMsg_0x0CFF16EF
+{
+    bool isValid = 1;
+    uint32 MCUintSts = 2;   // sigLen:8
+    uint32 MCUModelSts = 3;   // sigLen:8
+}
+
+message CanMsg_0x18FF12F7
+{
+    bool isValid = 1;
+    uint32 OUTVolt = 2;   // sigLen:16
+    uint32 OUTCurrent = 3;   // sigLen:16
+    uint32 DCSts = 4;   // sigLen:2
+    uint32 OUTCutDownSts = 5;   // sigLen:1
+    uint32 INCutDownSts = 6;   // sigLen:1
+    uint32 FaultLevel = 7;   // sigLen:2
+    uint32 RadiatorTemp = 8;   // sigLen:8
+}
+
+message CanMsg_0x18F412EF
+{
+    bool isValid = 1;
+    uint32 BattOverTempFault = 2;   // sigLen:2
+    uint32 InsulationFault = 3;   // sigLen:2
+    uint32 CellLessVoltWarning = 4;   // sigLen:2
+    uint32 CellOverVoltWarning = 5;   // sigLen:2
+    uint32 BattLessElectWarning = 6;   // sigLen:2
+    uint32 positiveRelayAdhesion = 7;   // sigLen:1
+    uint32 PTCRelayAdhesion = 8;   // sigLen:1
+    uint32 SOHWarning = 9;   // sigLen:2
+    uint32 PositionRelaySts = 10;   // sigLen:1
+    uint32 PTCRelaySts = 11;   // sigLen:1
+    uint32 BattVoltImbalance = 12;   // sigLen:2
+    uint32 DischgOverCurrent = 13;   // sigLen:2
+    uint32 ChgOverCurrent = 14;   // sigLen:2
+    uint32 ItselfCANerror = 15;   // sigLen:2
+    uint32 BattGeneralLessVolt = 16;   // sigLen:2
+    uint32 BattGeneralOverVolt = 17;   // sigLen:2
+    uint32 BMSHardwareFault = 18;   // sigLen:2
+    uint32 CANerror = 19;   // sigLen:2
+    uint32 CCsignConnetSts = 20;   // sigLen:2
+    uint32 PrechargeSts = 21;   // sigLen:2
+    uint32 BMSsts = 22;   // sigLen:4
+    uint32 BackChgEnb = 23;   // sigLen:1
+    uint32 WarmModel = 24;   // sigLen:3
+    uint32 BalanceSts = 25;   // sigLen:1
+    uint32 SOCLow = 26;   // sigLen:1
+    uint32 CurrentSensorFault = 27;   // sigLen:1
+    uint32 TempSensorFault = 28;   // sigLen:1
+    uint32 NegativeRelayAdhesion = 29;   // sigLen:1
+    uint32 PrechgRelaySts = 30;   // sigLen:1
+    uint32 NegativeRelaySts = 31;   // sigLen:1
+    uint32 DCchgPositiveRelaySts = 32;   // sigLen:1
+    uint32 DCchgGunOverTempFault = 33;   // sigLen:1
+    uint32 CellCollectLineCutFault = 34;   // sigLen:1
+    uint32 PrechgRelayAdhesion = 35;   // sigLen:1
+    uint32 DCchgPositiveRelayAdhesion = 36;   // sigLen:1
+    uint32 WakeUpType = 37;   // sigLen:2
+    uint32 BattTempImbalanceFault = 38;   // sigLen:2
+    uint32 BattLessTempFault = 39;   // sigLen:2
+    uint32 WarmSts = 40;   // sigLen:2
+}
+
+message CanMsg_0x18F413EF
+{
+    bool isValid = 1;
+    uint32 GeneralVolt = 2;   // sigLen:16
+    uint32 GeneralCurrent = 3;   // sigLen:16
+    uint32 SOC = 4;   // sigLen:16
+    uint32 BattSerialData = 5;   // sigLen:8
+    uint32 CellVoltSensorFault = 6;   // sigLen:2
+    uint32 GeneralVoltSensorFault = 7;   // sigLen:2
+    uint32 Less12VVolt = 8;   // sigLen:2
+    uint32 Over12VVolt = 9;   // sigLen:2
+}
+
+message CanMsg_0x18F433EF
+{
+    bool isValid = 1;
+    uint32 BattMaxTemp = 2;   // sigLen:8
+    uint32 BattMaxTempCode = 3;   // sigLen:8
+    uint32 BattMinTemp = 4;   // sigLen:8
+    uint32 BattMinTempCode = 5;   // sigLen:8
+    uint32 DCchgGunBaseTemp0 = 6;   // sigLen:8
+    uint32 DCchgGunBaseTemp1 = 7;   // sigLen:8
+    uint32 AverageTemp = 8;   // sigLen:8
+}
+
+message CanMsg_0x18F411EF
+{
+    bool isValid = 1;
+    uint32 SystemFaultLevel = 2;   // sigLen:3
+    uint32 HVlock = 3;   // sigLen:2
+    uint32 PowerDownReq = 4;   // sigLen:1
+    uint32 BMSMaxDischgPower = 5;   // sigLen:8
+    uint32 BMSMaxChgPower = 6;   // sigLen:8
+    uint32 DCchgVoltDemand = 7;   // sigLen:16
+    uint32 DCchgCurrentDemand = 8;   // sigLen:16
+    uint32 SystemStsCode = 9;   // sigLen:8
+}
+
+message CanMsg_0x0CFF7902
+{
+    bool isValid = 1;
+    uint32 FaultLevl = 2;   // sigLen:3
+    uint32 ModSts = 3;   // sigLen:2
+    uint32 EnSts = 4;   // sigLen:1
+    uint32 Precharge_Allow = 5;   // sigLen:1
+    uint32 DirSts = 6;   // sigLen:1
+    uint32 ActTor_Valid = 7;   // sigLen:1
+    uint32 ActSpd_Valid = 8;   // sigLen:1
+    uint32 ActTor = 9;   // sigLen:16
+    uint32 ActSpd = 10;   // sigLen:16
+}
+
+message CanMsg_0x0CFF7A02
+{
+    bool isValid = 1;
+    uint32 DCVolt = 2;   // sigLen:16
+    uint32 DCCur = 3;   // sigLen:16
+    uint32 ACCur = 4;   // sigLen:16
+}
+
+message CanMsg_0x0CFF7B02
+{
+    bool isValid = 1;
+    uint32 MotorMinAvaTor = 2;   // sigLen:16
+    uint32 MotorMaxAvaTor = 3;   // sigLen:16
+    uint32 MotorIGBTTemp = 4;   // sigLen:8
+    uint32 MTemp = 5;   // sigLen:8
+    uint32 CTemp = 6;   // sigLen:8
+}
+
+message CanMsg_0x0CFF7C02
+{
+    bool isValid = 1;
+    uint32 MOvSpdSts = 2;   // sigLen:2
+    uint32 MBlockSts = 3;   // sigLen:2
+    uint32 MOvTempSts = 4;   // sigLen:2
+    uint32 MOvCurSts = 5;   // sigLen:2
+    uint32 MShrSts = 6;   // sigLen:3
+    uint32 MShrGrdSts = 7;   // sigLen:3
+    uint32 COvTempSts = 8;   // sigLen:2
+    uint32 CAuxBatSts = 9;   // sigLen:2
+    uint32 PreChaSts = 10;   // sigLen:2
+    uint32 IGBTModSts = 11;   // sigLen:2
+    uint32 IGBTOvTempSts = 12;   // sigLen:2
+    uint32 IGBTOvCurSts = 13;   // sigLen:2
+    uint32 COvVoltSts = 14;   // sigLen:2
+    uint32 CLowVoltSts = 15;   // sigLen:2
+    uint32 IGBTTempSenSts = 16;   // sigLen:2
+    uint32 CANFault = 17;   // sigLen:2
+    uint32 MTempSenSts = 18;   // sigLen:2
+    uint32 CTempSenSts = 19;   // sigLen:2
+    uint32 CVoltSenSts = 20;   // sigLen:2
+    uint32 CCurSenSts = 21;   // sigLen:2
+    uint32 ACCurSenSts = 22;   // sigLen:2
+    uint32 CTranFaultSts = 23;   // sigLen:2
+    uint32 MCutOffSts = 24;   // sigLen:3
+}
+

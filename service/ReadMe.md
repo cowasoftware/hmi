@@ -1,0 +1,5 @@
+adu_client目录：与adu通信的相关类
+sau_client目录：与sau通信的相关类
+tbox_client目录：与tbox通信的相关类
+svbox_clent：与svbox通信
+proto：存放proto

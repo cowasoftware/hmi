@@ -1,0 +1,26 @@
+syntax = "proto3";
+    
+package COWA.CanService;
+
+//针对ZMQ的REQ-REP模式
+enum EventId
+{
+    EVENT_ID_INVALID = 0x00;
+    EVENT_ID_SET_CAN_DATA = 0x01;
+    EVENT_ID_HMI_GET_CAN_DATA = 0x02;
+    EVENT_ID_HMI_GET_NETWORK_DATA = 0x03;
+}
+
+message CanData 
+{
+    uint32 canId = 1;
+    bytes data = 2; //canMsg
+}
+
+message CanServiceMsg
+{
+    uint32 eventId = 1;
+    uint32 seqNum = 2;
+    uint64 timestamp = 3;
+    repeated CanData canData = 4; //CanData, 后续有其他的需要重新匹配message
+}

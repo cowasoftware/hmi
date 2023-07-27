@@ -1,0 +1,34 @@
+syntax = "proto2";
+
+package hmi;
+
+import "pose.proto";
+import "obstacle.proto";
+import "trafficlight.proto";
+import "trajectory.proto";
+import "chassis.proto";
+
+message ID
+{
+    required string id = 1;
+}
+
+
+message LaneInfoType
+{
+    repeated ID lane_id = 1;
+    repeated ID road_id = 2;
+    repeated ID crossroad_id = 3;
+    repeated ID crosswalk_id = 4;
+    repeated ID signal_id = 5;    
+}
+
+message BaseInfoDataType{
+    required uint64 sequence_id = 1 ;
+    optional COWA.NavMsg.PoseStamped pose_info = 2;
+    optional COWA.NavMsg.Trajectory trajectory_info = 3;
+    optional COWA.NavMsg.Obstacles obstacles_info = 4;
+    optional COWA.NavMsg.TrafficLight2 trafficlight2_info = 5;
+    optional COWA.NavMsg.VehicleDrive vehicle_drive_info = 6;
+    optional LaneInfoType lane_info = 7;
+}

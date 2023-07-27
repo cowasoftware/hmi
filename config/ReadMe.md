@@ -1,0 +1,1 @@
+ConfigManager类：保存用户配置相关信息的类，是基础设置页面用户设置的相关参数，数据保存到levelDb，下次开机时直接从levelDb读取

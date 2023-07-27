@@ -1,0 +1,23 @@
+[requires]
+zeromq/4.3.4
+cppzmq/4.8.1
+protobuf/3.3.0
+leveldb/1.23
+tboxhmi-common/1.0.0
+dltdaemon/1.0.0
+cowa-log/1.0.0
+ffmpeg/4.5.0
+glm/0.9.3
+assimp/5.2.5
+stb/0.0.0
+jsoncpp/1.9.5
+PROJ/9.1.0
+hiredis/1.1.1
+
+[generators]
+cmake
+
+
+[imports]
+lib, *.so.* -> ./bin
+lib, *.so -> ./bin

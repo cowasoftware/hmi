@@ -1,0 +1,72 @@
+syntax = "proto2";
+package COWA.NavMsg;
+message TrajectoryPoint
+{
+  optional double x = 1;
+  optional double y = 2;
+  optional double z = 3;
+  optional float theta = 4;
+  optional float kappa = 5;
+  optional float dkappa = 6;
+  optional float ddkappa = 7;
+  optional float s = 8; // 坐标
+  optional float v = 9; // 速度
+  optional float a = 10;
+  optional float da = 11;
+  optional float relative_time = 12;  // 时间
+  optional float left_distance = 13;
+  optional float right_distance = 14;
+  optional uint32 lane_hash = 15;
+};
+message Trajectory
+{
+  enum Action
+  {
+    NONE = 0;
+    TURN_LEFT = 1; //左转
+    TURN_RIGHT = 2;//右转
+    CHANGE_LANE_LEFT = 3; //向左变道
+    CHANGE_LANE_RIGHT = 4; //向右变道
+    U_TURN = 5;
+    
+    STOP_BLOCKED = 10;
+    STOP_BLOCKED_PEDESTRIAN = 11; //停障行人
+    STOP_BLOCKED_VEHICLE = 12;//停障机动车
+    STOP_BLOCKED_NO_MOTOR_VEHICLE = 13; //停障非机动车
+    STOP_BLOCKED_UNKNOWN = 14;
+    STOP_EMERGENCY = 15;//紧急停止
+    STOP_TRFFICLIGHT = 16;//红绿灯停车
+    STOP_WAIT = 17; //等待通行
+
+    PULL_OVER = 18; //靠边停车
+    PARKING = 19;
+    STANDBY = 20;
+
+    MOVE_START = 21; //车辆启动
+    MOVE_ACCELERATE = 22; //车辆加速
+    MOVE_DECELERATE = 23; //车辆减速
+
+    OVERTACK_LEFT = 31;//左侧超车
+    OVERTACK_RIGHT = 32;//右侧超车
+    AVOID_LEFT = 33; //向左避障
+    AVOID_RIGHT = 34; //向左避障
+
+    MANUAL = 41; //手动驾驶模式
+    AUTO_DRIVE = 42; //自动驾驶模式
+    SWEEP_ON = 44; //扫盘开启，不发为关闭
+    VACUUM_ON = 45; //真空泵开启
+    SPRAY_ON = 46; //洒水开启
+
+    LOOK_LEFT = 101;
+    LOOK_RIGHT = 102;
+    LOOK_BACK_LEFT = 103; 
+    LOOK_BACK_RIGHT = 104; 
+    LOOK_BACKWARD = 105; 
+  };
+
+  optional uint64 timestamp = 1;
+  repeated Action action = 2;
+  repeated TrajectoryPoint points = 3;
+  optional int32 latency_ms = 5;    //产生该消息相对于真实时刻的延迟
+  optional uint32 sequence = 6;
+};

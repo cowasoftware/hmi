@@ -1,0 +1,1 @@
+LevelDBManager类：与第三方库leveldb直接交互，用于保存和读取相关数据

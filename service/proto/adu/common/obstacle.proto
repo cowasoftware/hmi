@@ -1,0 +1,94 @@
+syntax = "proto2";
+package COWA.NavMsg;
+
+import "pose.proto";
+import "trajectory.proto";
+
+message Obstacle {
+    optional int32 id = 1;
+    optional uint64 timestamp = 2;
+
+    enum Type {
+        UNKNOWN = 0;
+        UNKNOWN_MOVABLE = 1;
+        UNKNOWN_UNMOVABLE = 2;
+
+        CAR = 3;    // 小轿车，SUV
+        BUS = 4;    // 大巴车
+        TRUCK = 5;  // 卡车
+        SPECIAL = 6;    //特种车辆，如工程车
+
+        CYCLIST = 10;    // 自行车
+        TRICYCLE = 11;   // 三轮车
+        MOTORCYCLIST = 12; // 摩托车
+
+        PEDESTRIAN = 20;    // 行人
+        WHEELCHAIR = 21;    // 轮椅
+        BABYCAR = 22;       // 婴儿车
+
+        ROADBLOCK = 30;     // 路障
+        TREE_TRUNK = 31; // 圆形，树躯干, hdmap.proto同定义
+        POLE = 32;       // 圆形，电线杆、路灯杆等, hdmap.proto同定义
+        PILES = 33;      // 圆形，固定的路桩(或者逻辑上可以认为路桩的障碍物，如圆形石墩), hdmap.proto同定义
+        DUSTBIN = 35;    // 多边形，垃圾桶，果皮箱, hdmap.proto同定义
+        BLOCK = 36;      // 多边形，小型的石墩，如园区外墙的方形柱子, hdmap.proto同定义
+        CURB_LINE = 37;  // bounding_contours 为按排序的点组成的线(非凸)
+
+        TRAFFICLIGHT = 40;  // 红绿灯，主要用于合并红绿灯以及障碍物检测
+    };
+
+    optional Type type = 3;
+
+    optional float theta = 21; // 偏航角
+    optional float theta_confidence = 22;
+    optional Pose pose = 5;
+    optional float pose_confidence = 23;
+    optional Velocity velocity = 6;
+    optional float velocity_confidence = 24;
+
+    optional float length = 7;
+    optional float width = 8;
+    optional float height = 9;
+    optional float size_confidence = 25;
+
+    optional bool is_static = 10;
+    optional int32 track_id = 16;
+
+    // in the frame of frame_id, and Make sure the points are in ccw order.
+    //  点的z是最低点Z，如需计算最高点需加上高度值
+    repeated Point3D bounding_contours = 11;
+    optional float bounding_confidence = 26;
+
+    optional float confidence = 12; // existance confidence
+
+    optional Velocity acceleration = 13;
+
+    enum SignalLamp {
+        INDICATE_OFF = 0;
+        INDICATE_LEFT = 1;
+        INDICATE_RIGHT = 2;
+        EMERGENCY_FLASHER = 3;
+        INDICATE_UNKNOWN = 9;
+    }
+    enum BrakeLamp {
+        BRAKE_OFF = 0;
+        BRAKE_ON = 1;
+        BRAKE_UNKNOWN = 9;
+    }
+    optional SignalLamp signal = 14;
+    optional BrakeLamp brake = 15;
+    message ObstacleTrajectory {
+        optional float confidence = 1;  // probability of this trajectory
+        repeated TrajectoryPoint point = 2;
+    }
+    repeated ObstacleTrajectory trajectory = 20;
+}
+message Obstacles 
+{
+    optional bytes frame_id = 1;
+    optional uint64 timestamp = 2; 
+    optional uint32 sequence = 3;
+    repeated Obstacle obstacles = 4;
+    optional int32 latency_ms = 5;    //产生该消息相对于真实时刻的延迟
+    optional string debug = 6;
+}

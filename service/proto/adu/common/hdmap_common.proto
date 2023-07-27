@@ -1,0 +1,79 @@
+syntax = "proto2";
+
+package COWA.MapData;
+
+
+message Id 
+{
+  optional string id = 1;
+}
+
+
+message PointENU {
+  optional double x = 1 [default = nan];  // East from the origin, in meters.
+  optional double y = 2 [default = nan];  // North from the origin, in meters.
+  optional double z = 3 [default = 0.0];  // Up from the WGS-84 ellipsoid, in meters.
+}
+
+message Polygon {
+  repeated PointENU point = 1;
+}
+
+message Cloud {
+  repeated float xyz = 1;
+  optional double offset_x = 2;
+  optional double offset_y = 3;
+}
+
+message LaneOverlapInfo {
+  optional double start_s = 1;  // position (s-coordinate)
+  optional double end_s = 2;    // position (s-coordinate)
+}
+message SignalOverlapInfo { 
+  optional int32 reserved = 1;
+}
+message CrosswalkOverlapInfo {
+  optional int32 reserved = 1;
+}
+message CrossroadOverlapInfo {
+  optional int32 reserved = 1;
+}
+message RampOverlapInfo {
+  optional int32 reserved = 1;
+}
+
+message RoadmarkOverlapInfo {
+  optional int32 reserved = 1;
+}
+message RoadOverlapInfo {
+  optional int32 reserved = 1;
+}
+
+message Overlap {
+  // Information about one object in the overlap.
+  message ObjectOverlapInfo {
+    optional Id id = 1; 
+    oneof overlap_info {
+      LaneOverlapInfo lane = 2;
+      SignalOverlapInfo signal = 3;
+      CrossroadOverlapInfo crossroad = 4;
+      CrosswalkOverlapInfo crosswalk = 5;
+      RampOverlapInfo ramp = 6;
+      RoadmarkOverlapInfo roadmark = 7;
+      RoadOverlapInfo road = 8;
+    }
+  }
+  optional ObjectOverlapInfo first = 2;
+  optional ObjectOverlapInfo second = 3;
+  optional Polygon polygon = 4;
+}
+
+
+message Header {
+  optional string version = 1;
+  optional string date = 2;
+  optional string projection = 3;
+  optional string generation = 4;
+  optional string md5 = 5;
+  repeated string log = 6;
+}

@@ -1,0 +1,102 @@
+syntax = "proto2";
+package COWA.NavMsg;
+enum DrivingError {
+  NO_ERROR = 0;
+  CONTROL_TIMEOUT = 1;
+  STEER_ERROR = 2;
+  THROTTLE_ERROR = 3;
+  BRAKE_ERROR = 4;
+  GEAR_ERROR = 5;
+  MANUAL_INTERVENTION = 6;
+  CAN_ERROR = 7;
+};
+
+
+message VehicleBCM {
+  enum TurnSignal {
+    TURN_NONE = 0;
+    TURN_LEFT = 1;
+    TURN_RIGHT = 2;
+  };
+  optional TurnSignal turn_signal = 1;
+  optional bool high_beam = 2;
+  optional bool low_beam = 3;
+  optional bool horn = 4;
+  optional bool emergency_light = 5;
+  optional bool wiper = 6;
+  optional float sweep = 10;
+  optional float vacuum = 11;
+  optional float spray = 12;
+  optional float left_sweep_servo = 13;
+  optional float right_sweep_servo = 14;
+};
+message VehicleSoc {
+  optional float battery = 1;//电池或邮箱电量,0-1
+  optional float engine_rpm = 2;//发动机或电机转速
+  optional float mileage = 3; //续航里程,km
+  optional float sla = 4; //铅酸电池容量,0-1, 通常为电压转换而来
+
+  optional float garbage_capacity = 10; //垃圾箱剩余容量, 0-1
+  optional float water_capacity = 11; //水箱剩余容量, 0-1
+};
+message VehicleDrive {
+  enum DrivingMode {
+    MANUAL = 0;  // human drive
+    AUTO_DRIVE = 1;
+    AUTO_STEER_ONLY = 2;  // only steer
+    AUTO_SPEED_ONLY = 3;  // include throttle and brake
+    EMERGENCY_MODE = 4;
+    STANDBY = 5; //braked, waiting command
+    PARKING = 6; //parking
+  };
+
+  enum GearPosition {
+    GEAR_NEUTRAL = 0;
+    GEAR_DRIVE = 1;
+    GEAR_REVERSE = 2;
+    GEAR_PARKING = 3;
+    GEAR_NONE = 4;
+  };
+  enum SpeedMode {
+    TORQUE = 0;
+    SPEED = 1;
+  };
+
+  optional DrivingMode driving_mode = 1;
+  optional GearPosition gear = 2;
+  optional SpeedMode speed_mode = 3;
+  optional float speed = 4;
+  optional float throttle = 5; // -1 ~ 1
+  optional float steer = 6; // 前轮转角
+  optional float steer_speed = 7;
+};
+message DebugField
+{
+  optional bytes field = 1;
+  optional float value = 2;
+}
+message VehicleInfo {
+  optional uint64 timestamp = 1;
+  optional uint32 sequence = 2;
+  optional VehicleDrive drive = 3;
+  optional VehicleBCM bcm = 4;
+  optional VehicleSoc soc =5;
+  repeated DebugField debug = 6;
+
+  repeated float wheel_speed = 10;
+  repeated float wheel_position = 11;
+  
+  optional uint64 timestamp_speed = 13;
+  optional uint64 timestamp_steer = 14;
+
+  optional DrivingError error = 12;
+  optional int32 latency_ms = 15;    //产生该消息相对于真实时刻的延迟
+};
+
+message VehicleCommond {
+  optional uint64 timestamp = 1;
+  optional uint32 sequence = 2;
+  optional VehicleDrive drive = 3;
+  optional VehicleBCM bcm = 4;
+  optional int32 latency_ms = 5;    //产生该消息相对于真实时刻的延迟
+};

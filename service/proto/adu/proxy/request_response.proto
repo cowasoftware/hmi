@@ -1,0 +1,47 @@
+syntax = "proto2";
+
+package request_response;
+
+import "chassis.proto";
+
+message TargetCrvuePointType{
+    required double x = 1;
+    required double y = 2;
+}
+
+message ResponseStatusType
+{
+    enum RequestStatusEnum
+    {
+        NO_REQUEST = 0;
+        REQUEST_WAIT = 1;
+        REQUEST_SUCC = 2;
+        REQUEST_FAIL = 3;
+        RECEIVE_FAIL = 4;
+    };
+    required  RequestStatusEnum reponse_status_code = 1;
+    optional  string reponse_status_msg = 2;
+}
+
+message RequestResponseDataType
+{
+    enum RequestType
+    {
+        MIN_UNVAILD_TYPE = 0;
+        TARGET_CURVE_TYPE = 1;
+        ENABLE_AUTO_DRIVE_TYPE = 2;
+        ENABLE_CAMERA_TYPE = 3;
+        ENABLE_ORIGIN_POINT_CLOUD_TYPE = 4;
+        MAX_UNVAILD_TYPE = 5;
+    }
+
+    required uint64 sequence_id = 1 ;
+    required RequestType request_type = 2;
+    //具体请求业务
+    repeated TargetCrvuePointType target_curve_points = 4;
+    optional COWA.NavMsg.VehicleDrive.DrivingMode auto_drive_mode = 5;
+    optional uint32 camera_index = 6;
+    optional string origin_point_cloud_channel_name = 7;
+    //请求和回复使用同一个结构体
+    optional ResponseStatusType response_status = 8;
+}
