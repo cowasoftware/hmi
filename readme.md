@@ -9,8 +9,6 @@
 ```
 2. HMI依赖仓库
 执行：git submodule init，git submodule update增加依赖仓库；
- https://git.cowarobot.com/yaoyongl/tboxhmi-common；
- https://git.cowarobot.com/yaoyongl/tbox_canserver；
 ```
 
 ```
